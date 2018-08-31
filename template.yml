@@ -6,7 +6,7 @@ Parameters:
     Type: String
 
 Resources:
-  demoApplicationFunctionAdd:
+  functionAdd:
     Type: AWS::Serverless::Function
     Properties:
       Handler: lambda_function.lambda_handler
@@ -21,4 +21,20 @@ Resources:
           Properties:
             Path: !Sub
               - ${env}/add
+            Method: GET
+  functionSubtract:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: lambda_function.lambda_handler
+      Runtime: python2.7
+      CodeUri: src/subtract/
+      AutoPublishAlias: subtractAlias
+      DeploymentPreference:
+        Type: Linear10PercentEvery1Minute
+      Events:
+        Add:
+          Type: Api
+          Properties:
+            Path: !Sub
+              - ${env}/subtract
             Method: GET
