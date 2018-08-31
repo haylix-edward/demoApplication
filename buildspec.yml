@@ -1,0 +1,21 @@
+version: 0.2
+
+env:
+  variables:
+    AWS_DEFAULT_REGION: "ap-southeast-2"
+
+phases:
+  #install: # e.g. install testing frameworks
+  #pre_build: # e.g. install npm packages
+  build:
+    commands:
+      - aws cloudformation package --template-file template.yml --s3-bucket demo-pipeline-artifacts --s3-prefix package --output-template-file output-template.yml
+    finally:
+      - echo "Entering finally block"
+  #post_build: # e.g. package build results
+
+artifacts:
+  type: zip
+  files:
+    - "output-template.yml"
+    - "template-configuration.json"
